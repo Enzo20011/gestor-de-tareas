@@ -11,17 +11,17 @@ interface TodoItemProps {
 }
 
 const PRIORITY_CONFIG = {
-  low:    { label: 'Baja',  color: 'priority--low',    dot: '🟢' },
-  medium: { label: 'Media', color: 'priority--medium', dot: '🟡' },
-  high:   { label: 'Alta',  color: 'priority--high',   dot: '🔴' },
+  low:    { label: 'Baja',  color: 'priority--low' },
+  medium: { label: 'Media', color: 'priority--medium' },
+  high:   { label: 'Alta',  color: 'priority--high' },
 };
 
 function formatDate(date: Date): string {
   const now = new Date();
   const diff = Math.ceil((date.getTime() - now.setHours(0, 0, 0, 0)) / (1000 * 60 * 60 * 24));
   const formatted = date.toLocaleDateString('es-AR', { day: 'numeric', month: 'short' });
-  if (diff < 0) return `⚠️ Vencida (${formatted})`;
-  if (diff === 0) return `🔔 Hoy`;
+  if (diff < 0) return `Vencida (${formatted})`;
+  if (diff === 0) return 'Hoy';
   if (diff === 1) return `Mañana`;
   return formatted;
 }
@@ -30,7 +30,8 @@ export const TodoItem = ({ task, onToggle, onEdit, onDelete, dragHandleProps }: 
   const [isEditing, setIsEditing] = useState(false);
 
   const priority = PRIORITY_CONFIG[task.priority] ?? PRIORITY_CONFIG.medium;
-  const isOverdue = task.dueDate && !task.completed && task.dueDate < new Date();
+  const startOfToday = new Date().setHours(0, 0, 0, 0);
+  const isOverdue = task.dueDate && !task.completed && task.dueDate.getTime() < startOfToday;
 
   const handleEdit = (updated: NewTask) => {
     onEdit(task.id, {
@@ -58,7 +59,11 @@ export const TodoItem = ({ task, onToggle, onEdit, onDelete, dragHandleProps }: 
         <>
           {/* Drag handle */}
           <div className="todo-item__drag" {...dragHandleProps} title="Arrastrar para reordenar">
-            ⠿
+            <svg viewBox="0 0 10 16" width="10" height="16" aria-hidden="true">
+              <circle cx="2.5" cy="3" r="1.3" /><circle cx="7.5" cy="3" r="1.3" />
+              <circle cx="2.5" cy="8" r="1.3" /><circle cx="7.5" cy="8" r="1.3" />
+              <circle cx="2.5" cy="13" r="1.3" /><circle cx="7.5" cy="13" r="1.3" />
+            </svg>
           </div>
 
           <div className="todo-item__check">
@@ -75,7 +80,7 @@ export const TodoItem = ({ task, onToggle, onEdit, onDelete, dragHandleProps }: 
             <div className="todo-item__header">
               <h3 className="todo-item__title">{task.title}</h3>
               <span className={`priority-badge ${priority.color}`}>
-                {priority.dot} {priority.label}
+                {priority.label}
               </span>
             </div>
             {task.description && (
@@ -83,7 +88,7 @@ export const TodoItem = ({ task, onToggle, onEdit, onDelete, dragHandleProps }: 
             )}
             {task.dueDate && (
               <span className={`due-date ${isOverdue ? 'due-date--overdue' : ''}`}>
-                📅 {formatDate(task.dueDate)}
+                {formatDate(task.dueDate)}
               </span>
             )}
           </div>
@@ -95,7 +100,7 @@ export const TodoItem = ({ task, onToggle, onEdit, onDelete, dragHandleProps }: 
               aria-label="Editar tarea"
               title="Editar"
             >
-              ✏️
+              Editar
             </button>
             <button
               className="btn-icon btn-icon--danger"
@@ -103,7 +108,7 @@ export const TodoItem = ({ task, onToggle, onEdit, onDelete, dragHandleProps }: 
               aria-label="Eliminar tarea"
               title="Eliminar"
             >
-              🗑️
+              Eliminar
             </button>
           </div>
         </>

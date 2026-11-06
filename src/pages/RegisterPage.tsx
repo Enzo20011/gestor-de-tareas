@@ -47,7 +47,7 @@ export const RegisterPage = () => {
       <div className="auth-card">
         <div className="auth-header">
           <h1>Crear cuenta</h1>
-          <p>Empieza a organizar tus tareas</p>
+          <p>Registrate para guardar tus tareas.</p>
         </div>
 
         {error && <div className="error-banner" role="alert">{error}</div>}

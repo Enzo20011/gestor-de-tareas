@@ -8,10 +8,10 @@ interface TodoFormProps {
   onCancel?: () => void;
 }
 
-const PRIORITY_OPTIONS: { value: Priority; label: string; emoji: string }[] = [
-  { value: 'low', label: 'Baja', emoji: '🟢' },
-  { value: 'medium', label: 'Media', emoji: '🟡' },
-  { value: 'high', label: 'Alta', emoji: '🔴' },
+const PRIORITY_OPTIONS: { value: Priority; label: string }[] = [
+  { value: 'low', label: 'Baja' },
+  { value: 'medium', label: 'Media' },
+  { value: 'high', label: 'Alta' },
 ];
 
 export const TodoForm = ({
@@ -82,7 +82,7 @@ export const TodoForm = ({
           >
             {PRIORITY_OPTIONS.map((opt) => (
               <option key={opt.value} value={opt.value}>
-                {opt.emoji} {opt.label}
+                {opt.label}
               </option>
             ))}
           </select>

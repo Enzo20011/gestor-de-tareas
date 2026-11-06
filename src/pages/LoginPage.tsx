@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { loginWithEmail, loginWithGoogle } from '../services/authService';
+import { loginWithEmail, loginWithGoogle, registerWithEmail } from '../services/authService';
 
 export const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -32,6 +32,21 @@ export const LoginPage = () => {
     }
   };
 
+  // Demo: cada visitante recibe una cuenta temporal propia, así sus tareas no se mezclan con las de otros.
+  const handleGuest = async () => {
+    try {
+      setError('');
+      setLoading(true);
+      const id = crypto.randomUUID().replace(/-/g, '').slice(0, 12);
+      await registerWithEmail(`invitado-${id}@example.com`, crypto.randomUUID());
+      navigate('/tasks');
+    } catch {
+      setError('No se pudo crear la sesión de invitado. Intentá de nuevo');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleGoogle = async () => {
     try {
       setError('');
@@ -47,10 +62,16 @@ export const LoginPage = () => {
       <div className="auth-card">
         <div className="auth-header">
           <h1>Bienvenido</h1>
-          <p>Iniciá sesión para ver tus tareas</p>
+          <p>Iniciá sesión para ver tus tareas.</p>
         </div>
 
         {error && <div className="error-banner" role="alert">{error}</div>}
+
+        <button onClick={handleGuest} className="btn btn-primary" type="button" disabled={loading}>
+          {loading ? 'Preparando...' : 'Entrar como invitado (demo)'}
+        </button>
+        <p className="auth-link">Sin registrarte: se crea una cuenta temporal solo para vos.</p>
+        <div className="divider"><span>o con tu cuenta</span></div>
 
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">

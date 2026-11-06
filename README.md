@@ -1,15 +1,25 @@
 # Gestor de tareas
 
-Aplicación web SPA del gestor estratégico de tareas. Permite autenticación de usuarios, CRUD de tareas persistido en Firestore, envío de resúmenes por email con AWS SES, y deploy en producción.
+Gestor de tareas con cuentas de usuario. Las tareas tienen prioridad y fecha límite, se pueden filtrar, reordenar arrastrándolas y guardan en Firestore. También envía un resumen por email con AWS SES.
 
 ## Demo
 
 Demo: https://gestor-tareas-demo.vercel.app. Con el botón «Entrar como invitado (demo)» se prueba sin registrarse.
 
-![Lista de tareas con cuatro tareas cargadas](docs/img/gest-1.webp)
-![Lista de tareas con dos tareas completadas](docs/img/gest-2.webp)
+![Lista de cuatro tareas con prioridad y fecha límite, una de ellas completada](docs/img/gest-1.webp)
+![La misma lista filtrada por tareas pendientes](docs/img/gest-2.webp)
 
 Más trabajos en mi portfolio: https://portfolio-fawn-kappa-35.vercel.app
+
+---
+
+## Qué hace
+
+- Registro e inicio de sesión con email y contraseña o con Google, y un acceso de invitado que crea una cuenta temporal.
+- Alta, edición y baja de tareas, con título, descripción, prioridad (baja, media o alta) y fecha límite.
+- Las tareas se pueden marcar como hechas, filtrar por todas, pendientes o completadas, y reordenar arrastrándolas (`@dnd-kit`).
+- Cada usuario ve solo sus tareas.
+- El botón «Enviar resumen por email» manda la lista a la casilla de la cuenta.
 
 ---
 
@@ -28,16 +38,14 @@ Más trabajos en mi portfolio: https://portfolio-fawn-kappa-35.vercel.app
 ## Estructura del proyecto
 
 ```
-project-root/
+gestor-de-tareas/
 ├── src/
 │   ├── pages/          # Vistas: LoginPage, RegisterPage, TasksPage
 │   ├── components/     # UI: TodoForm, TodoList, TodoItem
-│   ├── features/       # Lógica por dominio (auth, tasks)
 │   ├── services/       # Firebase, authService, taskService
 │   ├── routes/         # ProtectedRoute
 │   ├── hooks/          # useAuth, useTasks
-│   ├── types/          # Tipos e interfaces TypeScript
-│   └── utils/          # Helpers
+│   └── types/          # Tipos e interfaces TypeScript
 ├── functions/
 │   └── send-email.ts   # Vercel Function — AWS SES
 ├── tests/
@@ -54,8 +62,8 @@ project-root/
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/<tu-usuario>/task-manager-matecode.git
-cd task-manager-matecode
+git clone https://github.com/Enzo20011/gestor-de-tareas.git
+cd gestor-de-tareas
 ```
 
 ### 2. Instalar dependencias

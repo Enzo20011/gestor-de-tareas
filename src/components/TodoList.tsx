@@ -83,8 +83,8 @@ export const TodoList = ({ tasks, onToggle, onEdit, onDelete, onReorder }: TodoL
   if (tasks.length === 0) {
     return (
       <div className="empty-state" data-testid="empty-state">
-        <span className="empty-state__icon">📋</span>
-        <p>No tenés tareas todavía. ¡Creá tu primera tarea!</p>
+        <p>No hay tareas para mostrar.</p>
+        <p className="empty-state__hint">Creá la primera con el formulario de arriba.</p>
       </div>
     );
   }

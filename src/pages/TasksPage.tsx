@@ -67,10 +67,10 @@ export const TasksPage = () => {
             onClick={handleSendSummary}
             disabled={emailStatus === 'loading'}
           >
-            {emailStatus === 'loading' ? '⏳ Enviando...' :
-             emailStatus === 'success' ? '✅ Enviado' :
-             emailStatus === 'error' ? '❌ Error al enviar el email' :
-             '📧 Enviar resumen'}
+            {emailStatus === 'loading' ? 'Enviando...' :
+             emailStatus === 'success' ? 'Enviado' :
+             emailStatus === 'error' ? 'No se pudo enviar' :
+             'Enviar resumen por email'}
           </button>
           <button className="btn btn-ghost" onClick={handleLogout}>
             Cerrar sesión
@@ -83,9 +83,9 @@ export const TasksPage = () => {
 
         {/* Stats */}
         <div className="tasks-stats">
-          <span className="stat">📋 Total: {tasks.length}</span>
-          <span className="stat stat--pending">⏳ Pendientes: {pendingCount}</span>
-          <span className="stat stat--done">✅ Completadas: {completedCount}</span>
+          <span className="stat"><strong>{tasks.length}</strong> en total</span>
+          <span className="stat"><strong>{pendingCount}</strong> pendientes</span>
+          <span className="stat"><strong>{completedCount}</strong> completadas</span>
         </div>
 
         {/* Filters */}
@@ -103,7 +103,7 @@ export const TasksPage = () => {
 
         {/* New task form */}
         <section className="new-task-section">
-          <h2 className="section-title">NUEVA TAREA</h2>
+          <h2 className="section-title">Nueva tarea</h2>
           <TodoForm onSubmit={addTask} />
         </section>
 
